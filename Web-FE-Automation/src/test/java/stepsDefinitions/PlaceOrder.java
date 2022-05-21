@@ -4,6 +4,7 @@ import bases.TestBase;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import managers.ScenarioManager;
 import org.openqa.selenium.WebDriver;
 import pages.BlazeCartPageObject;
 import pages.BlazeFormPageObject;
@@ -45,6 +46,8 @@ public class PlaceOrder {
                 "Total price is present");
 
         totalPrice = formPage.getTotalPriceLabel().getText();
+
+        ScenarioManager.addScreenshot("Form page");
     }
 
     @And("^Fill all the inputs$")
@@ -58,6 +61,8 @@ public class PlaceOrder {
                 "Card field", false);
         TestService.setInput(formPage.getMonthInput(), Constants.MONTH, "Month field", false);
         TestService.setInput(formPage.getYearInput(), Constants.YEAR, "Year field", false);
+
+        ScenarioManager.addScreenshot();
     }
 
     @Then("^Click on purchase button$")
@@ -74,7 +79,8 @@ public class PlaceOrder {
     @Then("^Capture and log purchase Id and Amount$")
     public void captureAndLogPurchaseIdAndAmount() {
         purchases = modalThankPurchasePage.waitUntilPurchaseDataTextAppear().getText().split(":");
-        TestService.writeAnInfo("ID " +  purchases[1] +  "\n" + "Amount " + purchases[3]);
+        TestService.writeAnInfo("ID <b>" +  purchases[1] +  "\n" + "</b> Amount <b>" + purchases[3] + "</b>");
+        ScenarioManager.addScreenshot();
     }
 
     @And("^Assert purchase amount equals expected$")

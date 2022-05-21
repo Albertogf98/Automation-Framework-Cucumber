@@ -3,6 +3,7 @@ package stepsDefinitions;
 import bases.TestBase;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import managers.ScenarioManager;
 import org.openqa.selenium.WebDriver;
 import pages.BasePage;
 import pages.BlazeDashboardPageObject;
@@ -27,7 +28,9 @@ public class AddLaptopToCartStep {
     @Then("^Verify Laptops page is displayed$")
     public void verifyLaptopsPageIsDisplayed() {
         dashboardPage.waitUntilCardsTitlesAppear()
-                .forEach(card -> TestService.checkTrue(TestService.isPresent(card), "Card " + card.getText()));
+                .forEach(card ->
+                        TestService.checkTrue(TestService.isPresent(card),
+                        "Card " + card.getText() + " is present"));
     }
 
     @When("^Click on product (.*?)$")
@@ -54,6 +57,7 @@ public class AddLaptopToCartStep {
     public void laptopPageIsDisplayed() {
         laptopsPage.waitUntilInitElementsAppear();
         TestService.checkTrue(laptopsPage.isDisplayed(), "Laptops page is displayed");
+        ScenarioManager.addScreenshot();
     }
 
     @When("^Click add to cart button$")
@@ -64,6 +68,7 @@ public class AddLaptopToCartStep {
 
     @Then("^Accept pop up is confirmation displayed$")
     public void acceptPopUpIsConfirmationDisplayed() {
+        ScenarioManager.addScreenshot("Alert");
         TestService.checkEquals(BasePage.getAlertPopUp(driver).getText(), Constants.EXPECTED_ALERT_TITLE,
                 "Alert title");
         BasePage.getAlertPopUp(driver).accept();

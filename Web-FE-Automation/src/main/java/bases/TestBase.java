@@ -20,13 +20,6 @@ import java.net.URL;
 
 public class TestBase {
 
-    /**
-     *
-     * TODO:
-     * Add the function to download driver in case it is not remote.
-     *
-     * */
-
     private final static String ARGUMENT_IGNORE_CERTIFICATE_ERROR       = "--ignore-certificate-errors";
     private final static String ARGUMENT_IGNORE_SSL_ERROR               = "--ignore-ssl-errors";
     private final static String ARGUMENT_LANG_EN_US                     = "--lang=en-US";
@@ -119,12 +112,7 @@ public class TestBase {
             case "chrome"   -> initChromeDriver();
             case "edge"     -> initEdgeDriver();
             case "firefox"  -> initFirefoxDriver();
-            default         -> {
-
-                //TODO: Throw an exception
-
-                yield null;
-            }
+            default         -> null;
         };
 
         driver.manage().window().maximize();

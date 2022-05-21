@@ -28,12 +28,11 @@ public class ScenarioManager {
     }
 
     public static void addScreenshot(String imgName) {
-        imgName = imgName == null || imgName.isBlank() ? "image" : imgName;
         byte[] screenshotAs = ((TakesScreenshot) TestBase.getDriver()).getScreenshotAs(OutputType.BYTES);
         scenario.attach(screenshotAs, "image/png", imgName);
     }
 
     public static void addScreenshot() {
-        addScreenshot(null);
+        addScreenshot("Image");
     }
 }

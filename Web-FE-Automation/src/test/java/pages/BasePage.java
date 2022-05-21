@@ -74,9 +74,10 @@ public class BasePage {
 
     public List<WebElement> waitUntilElementsArePresent(By locator) {
         return new WebDriverWait(
-                driver,
-                Constants.TIME_TO_WAIT
-        ).until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
+                    driver,
+                    Constants.TIME_TO_WAIT
+            ).until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
+
     }
 
     public List<WebElement> waitUntilAllElementsAreVisible(By locator) {
@@ -100,6 +101,20 @@ public class BasePage {
         ).until(ExpectedConditions.alertIsPresent());
     }
 
+
+    public boolean waitUntilElementNotVisible(By locator) {
+        try {
+            new WebDriverWait(
+                    driver,
+                    Constants.TIME_TO_WAIT
+            ).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+        } catch (TimeoutException timeoutException) { }
+
+
+        return new WebDriverWait(
+                driver, Constants.TIME_TO_WAIT
+        ).until(ExpectedConditions.invisibilityOfElementLocated(locator));
+    }
     private boolean waitForPresence(long time, By locator) {
 
         try {

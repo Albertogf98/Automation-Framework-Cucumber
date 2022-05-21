@@ -27,3 +27,6 @@ hs_err_pid*
 *.iml
 *.iws
 
+# Reports
+Web-FE-Automation/reports/
+Web-FE-Automation/reports/

@@ -1,9 +1,9 @@
 package pages;
 
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import utils.Constants;
+import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import java.util.Arrays;
 import java.util.List;
@@ -54,15 +54,19 @@ public class BlazeDashboardPageObject extends BasePage {
     }
 
     public WebElement waitUntilCardTitleByNameAreVisible(String name) {
-        try {
-            return waitUntilAllElementsAreVisible(locCardsTitlesLinks)
-                    .stream()
-                    .filter(card -> card.getText().equals(name))
-                    .findFirst()
-                    .get();
-        } catch (StaleElementReferenceException e) {
-            return waitUntilCardTitleByNameAreVisible(name);
-        }
+      try {
+          waitUntilElementsArePresent(locCardsTitlesLinks);
+          WebElement element = waitUntilAllElementsAreVisible(locCardsTitlesLinks)
+                  .stream()
+                  .filter(card -> card.getText().equals(name))
+                  .findFirst()
+                  .get();
+
+          return element;
+
+      } catch (StaleElementReferenceException e) {
+          return waitUntilCardTitleByNameAreVisible(name);
+      }
     }
 
     public WebElement waitUntilCardTitleAreClickable(String name) {
@@ -83,24 +87,15 @@ public class BlazeDashboardPageObject extends BasePage {
 
     public List<WebElement> waitUntilCardsTitlesAppear() {
         try {
-            return waitUntilElementsArePresent(locCardsTitlesLinks);
+            waitUntilElementsArePresent(locCardsTitlesLinks);
+            return waitUntilAllElementsAreVisible(locCardsTitlesLinks);
         } catch (StaleElementReferenceException e) {
             return waitUntilCardsTitlesAppear();
         }
     }
 
     public boolean waitUntilNextStepButtonNotVisible() {
-        try {
-            new WebDriverWait(
-                    driver,
-                    Constants.TIME_TO_WAIT
-            ).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locNextPageButton));
-        } catch (TimeoutException timeoutException) { }
-
-
-        return new WebDriverWait(
-                driver, Constants.TIME_TO_WAIT
-        ).until(ExpectedConditions.invisibilityOfElementLocated(locNextPageButton));
+        return waitUntilElementNotVisible(locNextPageButton);
     }
 
     public boolean waitUntilInitElementsAppear() {

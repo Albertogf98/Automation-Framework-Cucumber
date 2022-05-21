@@ -4,6 +4,7 @@ import bases.TestBase;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import managers.ScenarioManager;
 import org.openqa.selenium.WebDriver;
 import pages.BlazeCartPageObject;
 import pages.BlazeDashboardPageObject;
@@ -39,6 +40,7 @@ public class NavigateToCartAndDeleteProductStep {
     public void cartPageIsDisplayed() {
        cartPage.waitUntilInitElementsAppear();
        TestService.checkTrue(cartPage.isDisplayed(), "Cart page is displayed");
+       ScenarioManager.addScreenshot("Cart page");
     }
 
     @When("^Click on delete button of the product (.*?)$")
@@ -54,5 +56,6 @@ public class NavigateToCartAndDeleteProductStep {
                 cartPage.waitUntilTheNumberOfProductsReduces(products.size()).size() < products.size(),
                 "The list has reduced the number of products"
         );
+        ScenarioManager.addScreenshot();
     }
 }
