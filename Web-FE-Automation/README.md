@@ -1,5 +1,5 @@
 # Frontend exercise
-### What I need to start the bot ?
+### What I need to start ?
 1 - NodeJS installed on your computer
 * Tutorial to install NodeJS:  [Intall NodeJS:](https://www.wikihow.com/Install-Node.Js-on-Windows#:~:text=1%20Open%20the%20Node.Js%20download%20site.%20Go%20to,its%20installation%20success%20by%20using%20Command%20Prompt%20.)
 
