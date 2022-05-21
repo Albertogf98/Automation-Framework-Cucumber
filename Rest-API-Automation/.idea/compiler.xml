@@ -6,13 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Web-FE-Automation" />
         <module name="Rest-API-Automation" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Rest-API-Automation" target="17" />
-      <module name="Web-FE-Automation" target="17" />
-    </bytecodeTargetLevel>
   </component>
 </project>
