@@ -24,7 +24,6 @@ public class TestBase {
      *
      * TODO:
      * Add the function to download driver in case it is not remote.
-     * Do factory with drivers
      *
      * */
 
