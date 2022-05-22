@@ -1,4 +1,2 @@
 # Tech-Challenge-QA-Adidas
-Tech Challenge-QA 
-
-Alberto Gandoy Florido
+### Alberto Gandoy Florido
