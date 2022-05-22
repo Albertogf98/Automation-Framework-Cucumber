@@ -1,12 +1,12 @@
 package services;
 
 import managers.ScenarioManager;
+import org.junit.Assert;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.testng.Assert;
 
 /**
  * This class contains the functions for asserting the actions of a test.
@@ -15,7 +15,6 @@ import org.testng.Assert;
 public class TestService {
 
     public TestService() { }
-
 
     public static void writeAnInfo(String message) {
         ScenarioManager.writeLogInfo(message);
@@ -35,7 +34,7 @@ public class TestService {
 
     public static void checkTrue(boolean condition, String message) {
         writeAnInfo(message);
-        Assert.assertTrue(condition, message);
+        Assert.assertTrue(condition);
     }
 
     public static void checkEquals(String current, String expected, String message) {
