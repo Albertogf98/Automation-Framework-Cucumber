@@ -49,6 +49,9 @@ public class BasePage {
         return webElement;
     }
 
+    public WebElement waitUntilElementAreVisible(WebElement element) {
+        return new WebDriverWait(driver, Constants.TIME_TO_WAIT).until(ExpectedConditions.visibilityOf(element));
+    }
     public WebElement waitUntilElementAreClickable(By locator) {
         return new WebDriverWait(
                 driver,
@@ -70,13 +73,6 @@ public class BasePage {
             ScenarioManager.writeLogInfo("Exception from getElement: " + e.getMessage());
             return Collections.emptyList();
         }
-    }
-
-    public List<WebElement> waitUntilElementsArePresent(WebElement element) {
-        return new WebDriverWait(
-                        driver,
-                        Constants.TIME_TO_WAIT
-                ).until(ExpectedConditions.visibilityOfAllElements(element));
     }
 
     public List<WebElement> waitUntilAllElementsAreVisible(By locator) {
@@ -134,5 +130,15 @@ public class BasePage {
 
     public boolean isDisplayed() {
         return false;
+    }
+
+    public static void smallWait() {
+        /*------ SMALL WAIT  ------*/
+        try {
+            Thread.sleep(Constants.TIME_TO_SLEEP);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        /*------------------*/
     }
 }

@@ -12,7 +12,7 @@ import models.Tag;
 import readers.ReadJson;
 import services.ApiService;
 import services.TestService;
-import utils.Functions;
+import utils.CommonsFunctions;
 import utils.Constants;
 import utils.ApiAddress;
 import utils.RequestType;
@@ -45,7 +45,7 @@ public class PetStep {
         headers.put("Content-Type", "application/json");
 
         json      = ReadJson.readJsonFile(Constants.PATH_JSON_POST);
-        id        = Functions.generateRandomNumber.apply(10000, 10000);
+        id        = CommonsFunctions.generateRandomNumber.apply(10000, 10000);
         pet       = new Pet(Constants.PET_NAME, id, "string", "");
         category  = new Category(Constants.CATEGORY_NAME, id);
         tag       = new Tag(Constants.TAG_NAME, id);

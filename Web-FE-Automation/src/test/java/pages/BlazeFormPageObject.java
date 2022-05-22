@@ -24,7 +24,8 @@ public class BlazeFormPageObject extends BasePage {
             locCardInput,
             locMonthInput,
             locYearInput,
-            locButtonPurchase
+            locButtonPurchase,
+            locTotalPriceLabel
     );
 
     public BlazeFormPageObject(WebDriver webDriver) {
@@ -32,7 +33,7 @@ public class BlazeFormPageObject extends BasePage {
     }
 
     public WebElement waitUntilNameInputAppear() {
-        return fluentWait(locNameInput);
+        return waitUntilElementAreVisible(fluentWait(locNameInput));
     }
 
     public WebElement getNameInput() {
@@ -60,11 +61,7 @@ public class BlazeFormPageObject extends BasePage {
     }
 
     public WebElement waitUntilTotalPriceLabelAppear() {
-        return fluentWait(locTotalPriceLabel);
-    }
-
-    public WebElement getTotalPriceLabel() {
-        return getElement(locTotalPriceLabel);
+        return waitUntilElementAreVisible(fluentWait(locTotalPriceLabel));
     }
 
     public WebElement getButtonPurchase() {

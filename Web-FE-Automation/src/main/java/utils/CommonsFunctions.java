@@ -7,10 +7,9 @@ import java.util.function.BiFunction;
  * This class contains functions that can be used more than once.
  * */
 
-public class Functions {
+public class CommonsFunctions {
+    public CommonsFunctions() { }
 
-    public Functions() { }
-
-    public static BiFunction<Integer, Integer, Integer> generateRandomNumber = (minValue, maxValue) -> new Random()
+    public static BiFunction<Integer, Integer, Integer> generateRandomNumbers = (minValue, maxValue) -> new Random()
             .nextInt(minValue + maxValue) + minValue;
 }

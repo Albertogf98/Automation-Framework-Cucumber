@@ -11,7 +11,11 @@ public class BlazeLaptopsPageObject extends BasePage {
 
     private By loProductTitle           = By.xpath("//h2[@class = 'name']");
     private By locAddToCartButton       = By.xpath("//div[@id = 'tbodyid']//a[contains(@class, 'btn')]");
-    private List<By> initPageLocators   = Arrays.asList(loProductTitle);
+
+    private List<By> initPageLocators   = Arrays.asList(
+            loProductTitle,
+            locAddToCartButton
+    );
 
     public BlazeLaptopsPageObject(WebDriver webDriver) {
         this.driver = webDriver;

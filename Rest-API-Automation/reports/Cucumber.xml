@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<testsuite errors="0" failures="0" name="io.cucumber.core.plugin.JUnitFormatter" skipped="0" tests="1" time="6.928">
+    <testcase classname="As a tester I want to do GET, POST, PUT and DELETE requests on the pet shop" name="Get available pets, create available pet, update available pet to sold and delete pet" time="6.733">
+        <system-out><![CDATA[Given Values to do the requests.............................................passed
+When I do a Get to available pets...........................................passed
+Then I should see a 200 status code in the get response.....................passed
+And I should see a body that is not empty in the get response...............passed
+And I should see contains values id as number...............................passed
+And I should see contains values name as string.............................passed
+And I should see contains values photoUrls as string........................passed
+And I should see contains available status..................................passed
+When I do a Post to add new available pet...................................passed
+Then I should see a 200 status code in the post response....................passed
+And I should see a body that is not empty in the post response..............passed
+And I verify that the pet has been added correctly..........................passed
+When I do a Put to update the status of the pet to sold.....................passed
+Then I should see a 200 status code in the put response.....................passed
+And I should see a body that is not empty in the put response...............passed
+And I verify that the pet status has been updated to sold...................passed
+When I do a delete to remove the pet........................................passed
+Then I should see a 200 status code in the delete response..................passed
+And I should see a body that is not empty in the delete response............passed
+And I verify that the pet has been removed..................................passed
+]]></system-out>
+    </testcase>
+</testsuite>

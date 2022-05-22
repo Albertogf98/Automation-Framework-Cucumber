@@ -15,8 +15,11 @@ public class Constants {
     public final static String PRODUCT_DEL_I7_8GB       = "Dell i7 8gb";
 
     /** VARIABLES FOR FORMS */
+    public final static String NAME                      = "Alberto";
+    public final static String COUNTRY                   = "Spain";
+    public final static String CITY                      = "Granada";
     public final static String MONTH                     = "05";
-    public final static String YEAR                      = "2050";
+    public final static String YEAR                      = "2030";
 
     /**VARIABLES FOR WAITS */
     public final static long TIME_TO_WAIT                = 60;

@@ -10,8 +10,8 @@ import org.openqa.selenium.WebDriver;
 import pages.*;
 import services.NavigationService;
 import services.TestService;
+import utils.CommonsFunctions;
 import utils.Constants;
-import utils.Functions;
 import utils.Webs;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class BlazeStep {
     private BlazeModalThankPurchasePageObject modalThankPurchasePage;
 
     private List<String> products;
-    private String totalPrice;
+    private String totalPrice, productName;
     private String[] purchases;
 
     public BlazeStep() {
@@ -51,63 +51,40 @@ public class BlazeStep {
     @Then("^Dashboard is displayed$")
     public void dashboardIsDisplayed() {
         dashboardPage.waitUntilInitElementsAppear();
-        TestService.checkTrue(dashboardPage.isDisplayed(), "Blaze page is displayed");
-        ScenarioManager.addScreenshot("Blaze dashboard");
+        dashboardPage.waitUntilCardsTitlesAppear();
+        TestService.checkTrue(dashboardPage.isDisplayed(), "<b> Blaze page </b> is displayed");
     }
 
     @When("^Click on phone category$")
     public void clickOnPhoneCategory() {
-        TestService.checkTrue(TestService.isPresent(dashboardPage.waitUntilPhoneButtonAppear()),
-                "Phone button is present");
-        dashboardPage.getPhoneButton().click();
+        dashboardPage.waitUntilPhoneButtonAppear().click();
     }
 
-    @Then("Verify is displayed")
-    public void verifyIsDisplayed() {
-        dashboardPage.waitUntilCardsTitlesAppear()
-                .forEach(card -> TestService.checkTrue(
-                        TestService.isPresent(card), "Card " + card.getText() + " is present")
-                );
-
+    @Then("^Verify (.*?) page is displayed$")
+    public void verifyPageIsDisplayed(String categoryPage) {
+        dashboardPage.waitUntilCardsTitlesAppear();
+        TestService.checkTrue(dashboardPage.isDisplayed(), "<b> " + categoryPage + " page </b> is displayed");
         ScenarioManager.addScreenshot();
     }
 
-    @When("^Click on Laptops category$")
+    @When("^Click on laptops category$")
     public void clickOnLaptopsCategory() {
-        TestService.checkTrue(TestService.isPresent(dashboardPage.waitUntilLaptopsButtonAppear()),
-                "Laptops button is present");
-        dashboardPage.getLaptopsButton().click();
+        dashboardPage.waitUntilLaptopsButtonAppear().click();
     }
 
     @When("^Click on monitors category$")
     public void clickOnMonitorsCategory() {
         TestService.checkTrue(TestService.isPresent(dashboardPage.waitUntilMonitorsButtonAppear()),
-                "Monitors button is present");
-        TestService.clickWithActions(driver, dashboardPage.getMonitorsButton(), "Monitors button");
-    }
-
-    @Then("^Verify monitors category is displayed$")
-    public void verifyMonitorscategoryIsDisplayed() {
-        dashboardPage.waitUntilCardsTitlesAppear()
-                .forEach(card -> TestService.checkTrue(
-                        TestService.isPresent(card), "Card " + card.getText() + " is present")
-                );
-        ScenarioManager.addScreenshot("Monitors category");
+                "<b> Monitors button </b> is present");
+        dashboardPage.getMonitorsButton().click();
     }
 
     @When("^Click on product (.*?)$")
     public void clickOnLaptop(String laptop) {
         if (laptop.equalsIgnoreCase(Constants.PRODUCT_DEL_I7_8GB)) {
-            int pixels = 1000;
 
-            TestService.writeAnInfo("Go to next page");
-            /*------ SHORT WAIT------*/
-            try {
-                Thread.sleep(Constants.TIME_TO_SLEEP - 300);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            /*------------------*/
+            int pixels = 1000;
+            BasePage.smallWait();
             TestService.doScroll(driver, true, pixels);
 
 
@@ -128,28 +105,24 @@ public class BlazeStep {
     public void laptopPageIsDisplayed() {
         laptopsPage.waitUntilInitElementsAppear();
         TestService.checkTrue(laptopsPage.isDisplayed(), "Laptops page is displayed");
-        ScenarioManager.addScreenshot();
     }
 
     @When("^Click add to cart button$")
     public void clickAddToCartButton() {
-        TestService.clickWithActions(driver, laptopsPage.waitUntilAddToCartButtonAreClickable(),
-                "Add to cart button");
+        laptopsPage.waitUntilAddToCartButtonAreClickable().click();
     }
 
     @Then("^Accept pop up is confirmation displayed$")
     public void acceptPopUpIsConfirmationDisplayed() {
-        ScenarioManager.addScreenshot("Alert");
         TestService.checkEquals(BasePage.getAlertPopUp(driver).getText(), Constants.EXPECTED_ALERT_TITLE,
                 "Alert title");
         BasePage.getAlertPopUp(driver).accept();
-
-        TestService.clickWithActions(driver, dashboardPage.getLogoLink(), "Add to cart button");
+        dashboardPage.getLogoLink().click();
     }
 
     @And("^Click on cart button$")
     public void clickOnCartButton() {
-        TestService.clickWithActions(driver, dashboardPage.waitUntilCartButtonAppear(), "Cart button");
+        dashboardPage.waitUntilCartButtonAppear().click();
     }
 
     @Then("^Cart page is displayed$")
@@ -162,54 +135,52 @@ public class BlazeStep {
     @When("^Click on delete button of the product (.*?)$")
     public void clickOnDeleteButton(String productName) {
         cartPage.waitUntilRowProductsTitlesAreVisibles().forEach(product -> products.add(product.getText()));
-        TestService.clickWithActions(driver, cartPage.waitUntilRowDeleteButtonAreClickableByProductName(productName),
-                "Delete button");
+        cartPage.waitUntilRowDeleteButtonAreClickableByProductName(productName).click();
+        this.productName = products
+                .stream()
+                .filter(product -> !product.equalsIgnoreCase(productName))
+                .findFirst()
+                .get();
     }
 
     @Then("^The product disappears from the list$")
     public void theProductDisappearsFromTheList() {
+        BasePage.smallWait();
+        cartPage.waitUntilRowProductNameByProductName(productName);
         TestService.checkTrue(
                 cartPage.waitUntilTheNumberOfProductsReduces(products.size()).size() < products.size(),
-                "The list has reduced the number of products"
-        );
-        ScenarioManager.addScreenshot();
+                "The list has reduced the number of products");
     }
 
     @When("^Click on place order button$")
     public void clickOnPlaceOrderButton() {
-        TestService.clickWithActions(driver, cartPage.getPlaceOlderButton(), "Place older button");
+        ScenarioManager.addScreenshot();
+        cartPage.getPlaceOlderButton().click();
     }
 
     @Then("^Form page is displayed$")
     public void formPageIsDisplayed() {
         formPage.waitUntilInitElementsAppear();
         TestService.checkTrue(formPage.isDisplayed(), "Form page is displayed");
-
-        TestService.checkTrue(TestService.isPresent(formPage.waitUntilTotalPriceLabelAppear()),
-                "Total price is present");
-
-        totalPrice = formPage.getTotalPriceLabel().getText();
-
-        ScenarioManager.addScreenshot("Form page");
     }
 
     @And("^Fill all the inputs$")
     public void fillAllTheInputs() {
-        String random = Functions.generateRandomWord.apply(5);
-        float card = Functions.generateRandomNumbers.apply(16);
+        totalPrice = formPage.waitUntilTotalPriceLabelAppear().getText();
+        String card = CommonsFunctions.generateRandomNumbers.apply(1000, 100000).toString();
 
-        TestService.setInput(formPage.waitUntilNameInputAppear(), random, "Name field", false);
-        TestService.checkEqualsByAttribute(formPage.getNameInput(), random, "Name");
+        TestService.setInput(formPage.waitUntilNameInputAppear(), Constants.NAME, "Name field", false);
+        TestService.checkEqualsByAttribute(formPage.getNameInput(),  Constants.NAME, "Name");
 
-        TestService.setInput(formPage.getCountryInput(), random, "Country field", false);
-        TestService.checkEqualsByAttribute(formPage.getCountryInput(), random, "Country");
+        TestService.setInput(formPage.getCountryInput(), Constants.COUNTRY, "Country field", false);
+        TestService.checkEqualsByAttribute(formPage.getCountryInput(), Constants.COUNTRY, "Country");
 
-        TestService.setInput(formPage.getCityInput(), random, "City field", false);
-        TestService.checkEqualsByAttribute(formPage.getCountryInput(), random, "Country");
+        TestService.setInput(formPage.getCityInput(), Constants.CITY, "City field", false);
+        TestService.checkEqualsByAttribute(formPage.getCityInput(), Constants.CITY, "Country");
 
 
-        TestService.setInput(formPage.getCardInput(), String.valueOf(card),"Card field", false);
-        TestService.checkEqualsByAttribute(formPage.getCardInput(), String.valueOf(card), "Card");
+        TestService.setInput(formPage.getCardInput(), card,"Card field", false);
+        TestService.checkEqualsByAttribute(formPage.getCardInput(), card, "Card");
 
         TestService.setInput(formPage.getMonthInput(), Constants.MONTH, "Month field", false);
         TestService.checkEqualsByAttribute(formPage.getMonthInput(), Constants.MONTH, "Month");
@@ -222,45 +193,43 @@ public class BlazeStep {
 
     @Then("^Click on purchase button$")
     public void clickOnPurchaseButton() {
-        TestService.clickWithActions(driver, formPage.getButtonPurchase(), "Purchase button");
+        formPage.getButtonPurchase().click();
     }
 
     @When("^Modal thank you purchase is displayed$")
     public void modalThankYouPurchaseIsDisplayed() {
         modalThankPurchasePage.waitUntilInitElementsAppear();
         TestService.checkTrue(modalThankPurchasePage.isDisplayed(), "Modal thank you purchase is displayed");
+        ScenarioManager.addScreenshot();
     }
 
     @Then("^Capture and log purchase Id and Amount$")
     public void captureAndLogPurchaseIdAndAmount() {
-        purchases = modalThankPurchasePage.waitUntilPurchaseDataTextAppear().getText().split(":");
-        TestService.checkTrue(purchases.length > 1, "Purcharse values");
+       purchases = modalThankPurchasePage.waitUntilPurchaseDataTextAppear().getText().split("\\n");
        TestService.writeAnInfo(
-               "ID " + purchases[1]
+               "ID " + purchases[0]
                .replace("Amount", "")
                .trim() +  "\n" + " Amount " + purchases[3]
-               .replace("name", "")
+               .replace("Name", "")
                .trim()
        );
-        ScenarioManager.addScreenshot();
     }
 
     @And("^Assert purchase amount equals expected$")
     public void assertPurchaseAmountEqualsExpected() {
-        TestService.checkEquals(purchases[3].split(" ")[0], totalPrice, "Purchase amount");
-        ScenarioManager.addScreenshot("Form disappeared");
+        TestService.checkEquals(purchases[1].split(" ")[1], totalPrice.split(" ")[1],
+                "Purchase amount");
+        ScenarioManager.addScreenshot();
     }
 
     @When("^Click OK button$")
     public void clickOKButton() {
-        TestService.clickWithActions(driver, modalThankPurchasePage.waitUntilOkButtonAreClikable(),
-                "Ok button");
+        modalThankPurchasePage.getOkButton().click();
     }
 
     @Then("^The form disappears$")
     public void theFormDisappears() {
-        TestService.checkTrue(modalThankPurchasePage.waitUntilInitElementsAreNotVisibles(),
-                "The form has disappeared");
-        ScenarioManager.addScreenshot("Form disappeared and dashboard appear");
+        modalThankPurchasePage.waitUntilInitElementsAreNotVisibles();
+        ScenarioManager.addScreenshot();
     }
 }

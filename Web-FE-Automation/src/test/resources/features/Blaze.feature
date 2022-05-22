@@ -5,18 +5,18 @@
       Given URL to go to blaze page without login confirmation
       Then Dashboard is displayed
       When Click on phone category
-      Then Verify is displayed
-      When Click on Laptops category
-      Then Verify is displayed
+      Then Verify phone page is displayed
+      When Click on laptops category
+      Then Verify laptops page is displayed
       When Click on monitors category
-      Then Verify monitors category is displayed
-      When Click on Laptops category
-      Then Verify is displayed
+      Then Verify monitors page is displayed
+      When Click on laptops category
+      Then Verify laptops page is displayed
       When Click on product Sony vaio i5
       Then Laptop page is displayed
       When Click add to cart button
       Then Accept pop up is confirmation displayed
-      Then Click on Laptops category
+      Then Click on laptops category
       When Click on product Dell i7 8gb
       Then Laptop page is displayed
       When Click add to cart button

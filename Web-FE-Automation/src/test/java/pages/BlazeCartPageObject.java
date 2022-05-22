@@ -14,12 +14,15 @@ public class BlazeCartPageObject extends BasePage {
     private By locTotalLabel            = By.xpath("//div[@class = 'col-lg-1']/h2");
     private By locPlaceOlderButton      = By.xpath("//div[@class = 'col-lg-1']/h2/following-sibling::button");
     private By locRowProductsTitles     = By.xpath("//tbody[@id = 'tbodyid']/tr/td[2]");
+    private By locProductImage          = By.xpath("//tr//img");
 
     private List<By> initPageLocators   = Arrays.asList(
             locTotalPriceLabel,
             locProductTitleLabel,
             locTotalLabel,
-            locPlaceOlderButton
+            locPlaceOlderButton,
+            locRowProductsTitles,
+            locProductImage
     );
 
     public BlazeCartPageObject(WebDriver webDriver) {
@@ -35,6 +38,10 @@ public class BlazeCartPageObject extends BasePage {
         return waitUntilElementAreClickable(By.xpath(xpath));
     }
 
+    public WebElement waitUntilRowProductNameByProductName(String productName) {
+        String xpath = "//tbody[@id = 'tbodyid']/tr/td[text() = '"+productName+"']";
+        return waitUntilElementAreVisible(fluentWait(By.xpath(xpath)));
+    }
     public List<WebElement> waitUntilRowProductsTitlesAreVisibles() {
         return waitUntilAllElementsAreVisible(locRowProductsTitles);
     }

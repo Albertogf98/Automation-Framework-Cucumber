@@ -11,6 +11,7 @@ public class BlazeDashboardPageObject extends BasePage {
 
     private By locLogoLink                  = By.id("nava");
     private By locCategoriesLink            = By.id("cat");
+    private By locPrevPageButton            = By.id("prev2");
     private By locNextPageButton            = By.id("next2");
     private By locPhoneCategoryButton       = By.xpath("(//a[@id = 'itemc'])[1]");
     private By locLaptopsCategoryButton     = By.xpath("(//a[@id = 'itemc'])[2]");
@@ -21,7 +22,9 @@ public class BlazeDashboardPageObject extends BasePage {
     private List<By> initPageLocators       = Arrays.asList(
             locLogoLink,
             locCategoriesLink,
-            locCartButton
+            locCartButton,
+            locPrevPageButton,
+            locNextPageButton
     );
 
     public BlazeDashboardPageObject(WebDriver webDriver) {
@@ -32,32 +35,12 @@ public class BlazeDashboardPageObject extends BasePage {
         return fluentWait(locPhoneCategoryButton);
     }
 
-    public WebElement waitUntilPhoneButtonAreClickable() {
-        return waitUntilElementAreClickable(locPhoneCategoryButton);
-    }
-
-    public WebElement getPhoneButton() {
-        return getElement(locPhoneCategoryButton);
-    }
-
     public WebElement waitUntilLaptopsButtonAppear() {
         return fluentWait(locLaptopsCategoryButton);
     }
 
-    public WebElement waitUntilLaptopsButtonAreClickable() {
-        return waitUntilElementAreClickable(locLaptopsCategoryButton);
-    }
-
-    public WebElement getLaptopsButton() {
-        return getElement(locLaptopsCategoryButton);
-    }
-
     public WebElement waitUntilMonitorsButtonAppear() {
         return fluentWait(locMonitorsCategoryButton);
-    }
-
-    public WebElement waitUntilMonitorsButtonAreClickable() {
-        return waitUntilElementAreClickable(locMonitorsCategoryButton);
     }
 
     public WebElement getMonitorsButton() {

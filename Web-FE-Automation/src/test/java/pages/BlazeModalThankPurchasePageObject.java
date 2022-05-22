@@ -11,6 +11,7 @@ public class BlazeModalThankPurchasePageObject extends BasePage {
 
     private By locOkButton              = By.xpath("//button[text() = 'OK']");
     private By locPurchaseDataText      = By.xpath("//div[//button[text() = 'OK']]/following-sibling::p[br]");
+
     private List<By> initPageLocators   = Arrays.asList(
             locOkButton,
             locPurchaseDataText
@@ -20,12 +21,12 @@ public class BlazeModalThankPurchasePageObject extends BasePage {
         this.driver = webDriver;
     }
 
-    public WebElement waitUntilOkButtonAreClikable() {
-        return waitUntilElementAreClickable(locOkButton);
+    public WebElement getOkButton() {
+        return getElement(locOkButton);
     }
 
     public WebElement waitUntilPurchaseDataTextAppear() {
-        return fluentWait(locPurchaseDataText);
+        return waitUntilElementAreVisible(fluentWait(locPurchaseDataText));
     }
 
     public boolean waitUntilInitElementsAppear() {
