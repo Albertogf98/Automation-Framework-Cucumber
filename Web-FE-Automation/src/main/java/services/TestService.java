@@ -39,12 +39,17 @@ public class TestService {
     }
 
     public static void checkEquals(String current, String expected, String message) {
-        writeAnInfo(message);
+        writeAnInfo(message + " current value " + current + " and expected value " + expected);
         Assert.assertEquals(current, expected, message);
     }
 
+    public static void checkEqualsByAttribute(WebElement element, String expected, String message) {
+        writeAnInfo(message + " current value " + element.getAttribute("value") + " and expected value " + expected);
+        Assert.assertEquals(element.getAttribute("value"), expected, message);
+    }
+
     public static void doScroll(WebDriver driver, boolean scollDown, int pixels) {
-        String script = scollDown ? "scroll(0, "+pixels+");": "scroll(0, -"+pixels+");";
+        String script = scollDown ? "scroll(0, "+pixels+");" : "scroll(0, -"+pixels+");";
         JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
         javascriptExecutor.executeScript(script);
     }
@@ -58,6 +63,6 @@ public class TestService {
         if (clearInput)
             element.sendKeys(Keys.RETURN);
 
-       writeAnInfo(message);
+       writeAnInfo(message + " with data: " + value);
     }
 }

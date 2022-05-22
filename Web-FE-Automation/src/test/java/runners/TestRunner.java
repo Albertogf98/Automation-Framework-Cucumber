@@ -9,15 +9,8 @@ import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
         features = "classpath:features",
-        tags = "@NavigateCategories" +
-                " or " +
-                "@AddLaptopToCart" +
-                " or " +
-                "@NavigateToCartAndDeleteProduct" +
-                " or " +
-                "@PlaceOrder",
+        tags = "@Blaze",
         glue = "stepsDefinitions",
-        monochrome = true,
         plugin = {
                 "pretty",
                 "json:reports/Cucumber.json",

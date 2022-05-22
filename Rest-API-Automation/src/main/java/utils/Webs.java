@@ -1,5 +1,9 @@
 package utils;
 
+/**
+ *This class contains the URLs of the websites
+ * */
+
 public enum Webs {
 
     WEB_BASE_PET_STORE  ("https://petstore.swagger.io");
@@ -13,5 +17,4 @@ public enum Webs {
     public String getWeb() {
         return URL;
     }
-
 }

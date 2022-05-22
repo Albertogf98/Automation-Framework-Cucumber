@@ -49,14 +49,6 @@
             <scope>compile</scope>
         </dependency>
 
-        <!-- Spring -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>5.3.20</version>
-            <scope>test</scope>
-        </dependency>
-
         <!-- Cucumber -->
         <dependency>
             <groupId>io.cucumber</groupId>

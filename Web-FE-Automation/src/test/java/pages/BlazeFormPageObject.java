@@ -13,8 +13,8 @@ public class BlazeFormPageObject extends BasePage {
     private By locCountryInput          = By.id("country");
     private By locCityInput             = By.id("city");
     private By locCardInput             = By.id("card");
-    private By locMonthInput            = By.id("card");
-    private By locYearInput             = By.id("card");
+    private By locMonthInput            = By.id("month");
+    private By locYearInput             = By.id("year");
     private By locTotalPriceLabel       = By.xpath("//form/label[@id = 'totalm']");
     private By locButtonPurchase        = By.cssSelector("#orderModal > div > div > div.modal-footer > button.btn.btn-primary");
     private List<By> initPageLocators   = Arrays.asList(
@@ -29,6 +29,10 @@ public class BlazeFormPageObject extends BasePage {
 
     public BlazeFormPageObject(WebDriver webDriver) {
         this.driver = webDriver;
+    }
+
+    public WebElement waitUntilNameInputAppear() {
+        return fluentWait(locNameInput);
     }
 
     public WebElement getNameInput() {

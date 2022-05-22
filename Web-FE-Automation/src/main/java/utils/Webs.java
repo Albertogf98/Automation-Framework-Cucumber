@@ -1,4 +1,4 @@
-package pages;
+package utils;
 
 /**
  *This class contains the URLs of the websites

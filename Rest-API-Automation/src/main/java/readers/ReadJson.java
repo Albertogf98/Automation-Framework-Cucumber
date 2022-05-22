@@ -9,16 +9,19 @@ import org.json.simple.parser.JSONParser;
 import java.io.FileReader;
 import java.nio.file.Path;
 
+/**
+ * This class is the json file reader.
+ * */
+
 public class ReadJson {
 
     public ReadJson() { }
 
     public static String readJsonFile(Path path) {
-        JSONParser parser = new JSONParser();
         String jsonBody = null;
 
         try {
-            Object object = parser.parse(new FileReader(path.toAbsolutePath().toString()));
+            Object object = new JSONParser().parse(new FileReader(path.toAbsolutePath().toString()));
             JSONObject jsonObject = (JSONObject) object;
             jsonBody = jsonObject.toJSONString();
 
@@ -29,7 +32,7 @@ public class ReadJson {
         return jsonBody;
     }
 
-    public static String setPostJsonValue(String jsonObject, Pet pet, Category category, Tag tag) {
+    public static String setJsonValueInBodyPet(String jsonObject, Pet pet, Category category, Tag tag) {
         return jsonObject
                 .replace("{PHOTO}", pet.getPhoto())
                 .replace("{PET_NAME}", pet.getName())

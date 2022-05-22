@@ -32,6 +32,10 @@ public class BlazeModalThankPurchasePageObject extends BasePage {
         return super.waitUntilInitElementsAppear(initPageLocators);
     }
 
+    public boolean waitUntilInitElementsAreNotVisibles() {
+        return super.waitUntilInitElementsAreNotVisibles(initPageLocators);
+    }
+
     @Override
     public boolean isDisplayed() {
         return initPageLocators

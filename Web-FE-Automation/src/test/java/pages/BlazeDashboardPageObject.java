@@ -1,7 +1,6 @@
 package pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -37,12 +36,20 @@ public class BlazeDashboardPageObject extends BasePage {
         return waitUntilElementAreClickable(locPhoneCategoryButton);
     }
 
+    public WebElement getPhoneButton() {
+        return getElement(locPhoneCategoryButton);
+    }
+
     public WebElement waitUntilLaptopsButtonAppear() {
         return fluentWait(locLaptopsCategoryButton);
     }
 
     public WebElement waitUntilLaptopsButtonAreClickable() {
         return waitUntilElementAreClickable(locLaptopsCategoryButton);
+    }
+
+    public WebElement getLaptopsButton() {
+        return getElement(locLaptopsCategoryButton);
     }
 
     public WebElement waitUntilMonitorsButtonAppear() {
@@ -53,20 +60,13 @@ public class BlazeDashboardPageObject extends BasePage {
         return waitUntilElementAreClickable(locMonitorsCategoryButton);
     }
 
+    public WebElement getMonitorsButton() {
+        return getElement(locMonitorsCategoryButton);
+    }
+
     public WebElement waitUntilCardTitleByNameAreVisible(String name) {
-      try {
-          waitUntilElementsArePresent(locCardsTitlesLinks);
-          WebElement element = waitUntilAllElementsAreVisible(locCardsTitlesLinks)
-                  .stream()
-                  .filter(card -> card.getText().equals(name))
-                  .findFirst()
-                  .get();
-
-          return element;
-
-      } catch (StaleElementReferenceException e) {
-          return waitUntilCardTitleByNameAreVisible(name);
-      }
+        String xpath = "//div[@id = 'tbodyid']//h4[@class = 'card-title']/a[text() = '"+name+"']";
+        return fluentWait(By.xpath(xpath));
     }
 
     public WebElement waitUntilCardTitleAreClickable(String name) {
@@ -86,12 +86,7 @@ public class BlazeDashboardPageObject extends BasePage {
     }
 
     public List<WebElement> waitUntilCardsTitlesAppear() {
-        try {
-            waitUntilElementsArePresent(locCardsTitlesLinks);
-            return waitUntilAllElementsAreVisible(locCardsTitlesLinks);
-        } catch (StaleElementReferenceException e) {
-            return waitUntilCardsTitlesAppear();
-        }
+        return getElements(locCardsTitlesLinks);
     }
 
     public boolean waitUntilNextStepButtonNotVisible() {

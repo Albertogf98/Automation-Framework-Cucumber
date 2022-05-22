@@ -35,9 +35,6 @@
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.32" level="project" />
     <orderEntry type="library" name="Maven: com.beust:jcommander:1.78" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.webjars:jquery:3.5.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:5.3.20" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-core:5.3.20" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-jcl:5.3.20" level="project" />
     <orderEntry type="library" name="Maven: io.cucumber:cucumber-java:6.10.4" level="project" />
     <orderEntry type="library" name="Maven: io.cucumber:cucumber-core:6.10.4" level="project" />
     <orderEntry type="library" name="Maven: io.cucumber:cucumber-gherkin:6.10.4" level="project" />

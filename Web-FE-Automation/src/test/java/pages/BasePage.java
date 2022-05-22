@@ -72,12 +72,11 @@ public class BasePage {
         }
     }
 
-    public List<WebElement> waitUntilElementsArePresent(By locator) {
+    public List<WebElement> waitUntilElementsArePresent(WebElement element) {
         return new WebDriverWait(
-                    driver,
-                    Constants.TIME_TO_WAIT
-            ).until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
-
+                        driver,
+                        Constants.TIME_TO_WAIT
+                ).until(ExpectedConditions.visibilityOfAllElements(element));
     }
 
     public List<WebElement> waitUntilAllElementsAreVisible(By locator) {
@@ -101,20 +100,13 @@ public class BasePage {
         ).until(ExpectedConditions.alertIsPresent());
     }
 
-
     public boolean waitUntilElementNotVisible(By locator) {
-        try {
-            new WebDriverWait(
-                    driver,
-                    Constants.TIME_TO_WAIT
-            ).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
-        } catch (TimeoutException timeoutException) { }
-
-
         return new WebDriverWait(
-                driver, Constants.TIME_TO_WAIT
+                driver,
+                Constants.TIME_TO_WAIT
         ).until(ExpectedConditions.invisibilityOfElementLocated(locator));
     }
+
     private boolean waitForPresence(long time, By locator) {
 
         try {
@@ -133,6 +125,11 @@ public class BasePage {
         return locators
                 .stream()
                 .allMatch(locator -> this.waitForPresence(Constants.TIME_TO_WAIT, locator));
+    }
+    public boolean waitUntilInitElementsAreNotVisibles(List<By> locators) {
+        return locators
+                .stream()
+                .allMatch(locator -> this.waitUntilElementNotVisible(locator));
     }
 
     public boolean isDisplayed() {
