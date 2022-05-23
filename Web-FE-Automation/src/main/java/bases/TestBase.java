@@ -28,6 +28,7 @@ public class TestBase {
 
     private final static String SELENIUM_MODE                           = PropertiesReader.getProperty("SELENIUM_MODE");
     private final static String SELENIUM_URL                            = PropertiesReader.getProperty("SELENIUM_URL");
+    private final static String SELENIUM_BROWSER                        = PropertiesReader.getProperty("SELENIUM_BROWSER");
 
     private static WebDriver driver;
 
@@ -88,10 +89,7 @@ public class TestBase {
         WebDriver webDriver = null;
 
         FirefoxOptions firefoxOptions = new FirefoxOptions();
-        firefoxOptions.addArguments(
-                ARGUMENT_IGNORE_CERTIFICATE_ERROR,
-                ARGUMENT_IGNORE_SSL_ERROR
-        );
+        firefoxOptions.addArguments(ARGUMENT_IGNORE_CERTIFICATE_ERROR, ARGUMENT_IGNORE_SSL_ERROR);
         firefoxOptions.setHeadless(HEADLESS_MODE.equalsIgnoreCase(SELENIUM_MODE));
 
         FirefoxProfile firefoxProfile = new FirefoxProfile();
@@ -108,11 +106,11 @@ public class TestBase {
     }
 
     public static void createDriver() {
-        driver = switch (PropertiesReader.getProperty("SELENIUM_BROWSER").toLowerCase()) {
+        driver = switch (SELENIUM_BROWSER.toLowerCase()) {
             case "chrome"   -> initChromeDriver();
             case "edge"     -> initEdgeDriver();
             case "firefox"  -> initFirefoxDriver();
-            default         -> null;
+            default         -> throw new NullPointerException("Browser name is invalid " + SELENIUM_BROWSER);
         };
 
         driver.manage().window().maximize();

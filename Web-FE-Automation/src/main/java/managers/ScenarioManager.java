@@ -15,10 +15,6 @@ public class ScenarioManager {
 
     public ScenarioManager() { }
 
-    public static Scenario getScenario() {
-        return  ScenarioManager.scenario;
-    }
-
     public static void setScenario(Scenario scenario) {
         ScenarioManager.scenario = scenario;
     }

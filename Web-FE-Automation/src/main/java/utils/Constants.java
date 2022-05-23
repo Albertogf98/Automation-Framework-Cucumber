@@ -1,5 +1,8 @@
 package utils;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 /**
  * This class contains variables that will be used more than once.
  */
@@ -24,4 +27,12 @@ public class Constants {
     /**VARIABLES FOR WAITS */
     public final static long TIME_TO_WAIT                = 60;
     public final static long TIME_TO_SLEEP               = 500;
+
+    /**VARIABLES FOR PATHS*/
+    public final static Path PATH_CONFIG_PROPERTIES = Paths.get(
+            "src",
+            "test",
+            "resources",
+            "config.properties"
+    );
 }

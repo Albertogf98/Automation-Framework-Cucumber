@@ -1,9 +1,9 @@
 package readers;
 
+import utils.Constants;
+
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Properties;
 
 /**
@@ -12,17 +12,11 @@ import java.util.Properties;
 
 public class PropertiesReader {
 
-    private final static Path PATH_CONFIG_PROPERTIES = Paths.get(
-            "src",
-            "test",
-            "resources",
-            "config.properties"
-    );
-
     private static Properties properties;
+    public PropertiesReader() { }
 
     private static void loadProperties() {
-        try (InputStream inputStream = new FileInputStream(PATH_CONFIG_PROPERTIES.toAbsolutePath().toString())) {
+        try (InputStream inputStream = new FileInputStream(Constants.PATH_CONFIG_PROPERTIES.toAbsolutePath().toString())) {
             if (properties == null)
                 properties = new Properties();
 

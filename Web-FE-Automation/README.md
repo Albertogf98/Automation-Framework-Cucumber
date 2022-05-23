@@ -5,6 +5,6 @@
 
 2 - Open the NodeJS console and and type the following commands:
 * **If this is your first time running webdriver in nodeJS run this command:** npm -g install webdriver-manager
-* Clean webdriver: webdriver-manager clean
+* Clean webdriver:  webdriver-manager clean
 * Update webdriver: webdriver-manager update --versions.standalone 4.0.0-alpha-2
-* Start webdriver:  
+* Start webdriver:  webdriver-manager start --versions.standalone 4.0.0-alpha-2

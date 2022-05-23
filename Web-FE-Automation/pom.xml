@@ -59,6 +59,11 @@
             <artifactId>msedge-selenium-tools-java</artifactId>
             <version>3.141.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-edge-driver</artifactId>
+            <version>4.1.4</version>
+        </dependency>
 
         <!-- Cucumber -->
         <dependency>
@@ -75,13 +80,6 @@
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
             <version>6.9.1</version>
-        </dependency>
-
-        <!-- webdrivermanager -->
-        <dependency>
-            <groupId>io.github.bonigarcia</groupId>
-            <artifactId>webdrivermanager</artifactId>
-            <version>5.1.0</version>
         </dependency>
 
         <!-- extentreports -->

@@ -18,13 +18,15 @@ public class BlazeDashboardPageObject extends BasePage {
     private By locMonitorsCategoryButton    = By.xpath("(//a[@id = 'itemc'])[last()]");
     private By locCardsTitlesLinks          = By.xpath("//div[@id = 'tbodyid']//h4[@class = 'card-title']");
     private By locCartButton                = By.xpath("//a[@class = 'nav-link' and contains(text(), 'Car')]");
+    private By locCartImage                 = By.xpath("//img[@class = 'card-img-top img-fluid']");
 
     private List<By> initPageLocators       = Arrays.asList(
             locLogoLink,
             locCategoriesLink,
             locCartButton,
             locPrevPageButton,
-            locNextPageButton
+            locNextPageButton,
+            locCartImage
     );
 
     public BlazeDashboardPageObject(WebDriver webDriver) {
@@ -68,9 +70,14 @@ public class BlazeDashboardPageObject extends BasePage {
         return fluentWait(locCartButton);
     }
 
+    public WebElement waintUntilImageLoad() {
+        return waitUntilElementAreVisible(fluentWait(locCartImage));
+    }
+
     public List<WebElement> waitUntilCardsTitlesAppear() {
         return getElements(locCardsTitlesLinks);
     }
+
 
     public boolean waitUntilNextStepButtonNotVisible() {
         return waitUntilElementNotVisible(locNextPageButton);

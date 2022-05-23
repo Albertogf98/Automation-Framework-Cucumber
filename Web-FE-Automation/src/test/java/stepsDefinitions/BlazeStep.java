@@ -9,7 +9,8 @@ import managers.ScenarioManager;
 import org.openqa.selenium.WebDriver;
 import pages.*;
 import services.NavigationService;
-import services.TestService;
+import services.TestAssertService;
+import services.TestUtilsService;
 import utils.CommonsFunctions;
 import utils.Constants;
 import utils.Webs;
@@ -52,7 +53,7 @@ public class BlazeStep {
     public void dashboardIsDisplayed() {
         dashboardPage.waitUntilInitElementsAppear();
         dashboardPage.waitUntilCardsTitlesAppear();
-        TestService.checkTrue(dashboardPage.isDisplayed(), "<b> Blaze page </b> is displayed");
+        TestAssertService.checkTrue(dashboardPage.isDisplayed(), "<b> Blaze page </b> is displayed");
     }
 
     @When("^Click on phone category$")
@@ -63,7 +64,8 @@ public class BlazeStep {
     @Then("^Verify (.*?) page is displayed$")
     public void verifyPageIsDisplayed(String categoryPage) {
         dashboardPage.waitUntilCardsTitlesAppear();
-        TestService.checkTrue(dashboardPage.isDisplayed(), "<b> " + categoryPage + " page </b> is displayed");
+        dashboardPage.waintUntilImageLoad();
+        TestAssertService.checkTrue(dashboardPage.isDisplayed(), "<b> " + categoryPage + " page </b> is displayed");
         ScenarioManager.addScreenshot();
     }
 
@@ -74,7 +76,7 @@ public class BlazeStep {
 
     @When("^Click on monitors category$")
     public void clickOnMonitorsCategory() {
-        TestService.checkTrue(TestService.isPresent(dashboardPage.waitUntilMonitorsButtonAppear()),
+        TestAssertService.checkTrue(TestAssertService.isPresent(dashboardPage.waitUntilMonitorsButtonAppear()),
                 "<b> Monitors button </b> is present");
         dashboardPage.getMonitorsButton().click();
     }
@@ -85,26 +87,25 @@ public class BlazeStep {
 
             int pixels = 1000;
             BasePage.smallWait();
-            TestService.doScroll(driver, true, pixels);
+            TestUtilsService.doScroll(driver, true, pixels);
 
 
             dashboardPage.getNextPageButton().click();
-            TestService.checkTrue(dashboardPage.waitUntilNextStepButtonNotVisible(), "Next page is displayed");
+            TestAssertService.checkTrue(dashboardPage.waitUntilNextStepButtonNotVisible(),
+                    "Next page is displayed");
 
             dashboardPage.waitUntilCardsTitlesAppear();
-            TestService.doScroll(driver,false, pixels);
+            TestUtilsService.doScroll(driver,false, pixels);
         }
 
-        TestService.checkTrue(TestService.isPresent(dashboardPage.waitUntilCardTitleByNameAreVisible(laptop)),
-                "Laptop link " + laptop);
-        TestService.clickWithActions(driver, dashboardPage.waitUntilCardTitleAreClickable(laptop),
+        TestUtilsService.clickWithActions(driver, dashboardPage.waitUntilCardTitleAreClickable(laptop),
                 "Laptop link " + laptop);
     }
 
     @Then("^Laptop page is displayed$")
     public void laptopPageIsDisplayed() {
         laptopsPage.waitUntilInitElementsAppear();
-        TestService.checkTrue(laptopsPage.isDisplayed(), "Laptops page is displayed");
+        TestAssertService.checkTrue(laptopsPage.isDisplayed(), "Laptops page is displayed");
     }
 
     @When("^Click add to cart button$")
@@ -114,7 +115,7 @@ public class BlazeStep {
 
     @Then("^Accept pop up is confirmation displayed$")
     public void acceptPopUpIsConfirmationDisplayed() {
-        TestService.checkEquals(BasePage.getAlertPopUp(driver).getText(), Constants.EXPECTED_ALERT_TITLE,
+        TestAssertService.checkEquals(BasePage.getAlertPopUp(driver).getText(), Constants.EXPECTED_ALERT_TITLE,
                 "Alert title");
         BasePage.getAlertPopUp(driver).accept();
         dashboardPage.getLogoLink().click();
@@ -128,8 +129,8 @@ public class BlazeStep {
     @Then("^Cart page is displayed$")
     public void cartPageIsDisplayed() {
         cartPage.waitUntilInitElementsAppear();
-        TestService.checkTrue(cartPage.isDisplayed(), "Cart page is displayed");
-        ScenarioManager.addScreenshot("Cart page");
+        TestAssertService.checkTrue(cartPage.isDisplayed(), "Cart page is displayed");
+        ScenarioManager.addScreenshot();
     }
 
     @When("^Click on delete button of the product (.*?)$")
@@ -147,7 +148,7 @@ public class BlazeStep {
     public void theProductDisappearsFromTheList() {
         BasePage.smallWait();
         cartPage.waitUntilRowProductNameByProductName(productName);
-        TestService.checkTrue(
+        TestAssertService.checkTrue(
                 cartPage.waitUntilTheNumberOfProductsReduces(products.size()).size() < products.size(),
                 "The list has reduced the number of products");
     }
@@ -161,7 +162,7 @@ public class BlazeStep {
     @Then("^Form page is displayed$")
     public void formPageIsDisplayed() {
         formPage.waitUntilInitElementsAppear();
-        TestService.checkTrue(formPage.isDisplayed(), "Form page is displayed");
+        TestAssertService.checkTrue(formPage.isDisplayed(), "Form page is displayed");
     }
 
     @And("^Fill all the inputs$")
@@ -169,24 +170,26 @@ public class BlazeStep {
         totalPrice = formPage.waitUntilTotalPriceLabelAppear().getText();
         String card = CommonsFunctions.generateRandomNumbers.apply(1000, 100000).toString();
 
-        TestService.setInput(formPage.waitUntilNameInputAppear(), Constants.NAME, "Name field", false);
-        TestService.checkEqualsByAttribute(formPage.getNameInput(),  Constants.NAME, "Name");
+        TestUtilsService.setInput(formPage.waitUntilNameInputAppear(), Constants.NAME, "Name field",
+                false);
+        TestAssertService.checkEqualsByAttribute(formPage.getNameInput(),  Constants.NAME, "Name");
 
-        TestService.setInput(formPage.getCountryInput(), Constants.COUNTRY, "Country field", false);
-        TestService.checkEqualsByAttribute(formPage.getCountryInput(), Constants.COUNTRY, "Country");
+        TestUtilsService.setInput(formPage.getCountryInput(), Constants.COUNTRY, "Country field",
+                false);
+        TestAssertService.checkEqualsByAttribute(formPage.getCountryInput(), Constants.COUNTRY, "Country");
 
-        TestService.setInput(formPage.getCityInput(), Constants.CITY, "City field", false);
-        TestService.checkEqualsByAttribute(formPage.getCityInput(), Constants.CITY, "Country");
+        TestUtilsService.setInput(formPage.getCityInput(), Constants.CITY, "City field", false);
+        TestAssertService.checkEqualsByAttribute(formPage.getCityInput(), Constants.CITY, "Country");
 
 
-        TestService.setInput(formPage.getCardInput(), card,"Card field", false);
-        TestService.checkEqualsByAttribute(formPage.getCardInput(), card, "Card");
+        TestUtilsService.setInput(formPage.getCardInput(), card,"Card field", false);
+        TestAssertService.checkEqualsByAttribute(formPage.getCardInput(), card, "Card");
 
-        TestService.setInput(formPage.getMonthInput(), Constants.MONTH, "Month field", false);
-        TestService.checkEqualsByAttribute(formPage.getMonthInput(), Constants.MONTH, "Month");
+        TestUtilsService.setInput(formPage.getMonthInput(), Constants.MONTH, "Month field", false);
+        TestAssertService.checkEqualsByAttribute(formPage.getMonthInput(), Constants.MONTH, "Month");
 
-        TestService.setInput(formPage.getYearInput(), Constants.YEAR, "Year field", false);
-        TestService.checkEqualsByAttribute(formPage.getYearInput(), Constants.YEAR, "Year");
+        TestUtilsService.setInput(formPage.getYearInput(), Constants.YEAR, "Year field", false);
+        TestAssertService.checkEqualsByAttribute(formPage.getYearInput(), Constants.YEAR, "Year");
 
         ScenarioManager.addScreenshot();
     }
@@ -199,27 +202,27 @@ public class BlazeStep {
     @When("^Modal thank you purchase is displayed$")
     public void modalThankYouPurchaseIsDisplayed() {
         modalThankPurchasePage.waitUntilInitElementsAppear();
-        TestService.checkTrue(modalThankPurchasePage.isDisplayed(), "Modal thank you purchase is displayed");
+        TestAssertService.checkTrue(modalThankPurchasePage.isDisplayed(), null);
         ScenarioManager.addScreenshot();
     }
 
     @Then("^Capture and log purchase Id and Amount$")
     public void captureAndLogPurchaseIdAndAmount() {
        purchases = modalThankPurchasePage.waitUntilPurchaseDataTextAppear().getText().split("\\n");
-       TestService.writeAnInfo(
-               "ID " + purchases[0]
-               .replace("Amount", "")
-               .trim() +  "\n" + " Amount " + purchases[3]
-               .replace("Name", "")
-               .trim()
-       );
+        ScenarioManager.writeLogInfo(
+                "ID " + purchases[0]
+                .replace("Amount", "")
+                .trim() +  "\n" +
+                "Amount " + purchases[3]
+                .replace("Name", "")
+                .trim()
+        );
     }
 
     @And("^Assert purchase amount equals expected$")
     public void assertPurchaseAmountEqualsExpected() {
-        TestService.checkEquals(purchases[1].split(" ")[1], totalPrice.split(" ")[1],
+        TestAssertService.checkEquals(purchases[1].split(" ")[1], totalPrice.split(" ")[1],
                 "Purchase amount");
-        ScenarioManager.addScreenshot();
     }
 
     @When("^Click OK button$")
@@ -229,7 +232,6 @@ public class BlazeStep {
 
     @Then("^The form disappears$")
     public void theFormDisappears() {
-        modalThankPurchasePage.waitUntilInitElementsAreNotVisibles();
-        ScenarioManager.addScreenshot();
+        TestAssertService.checkTrue(modalThankPurchasePage.waitUntilInitElementsAreNotVisibles(), null);
     }
 }
