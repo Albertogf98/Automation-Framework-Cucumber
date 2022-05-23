@@ -6,12 +6,13 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import managers.ScenarioManager;
 import models.Category;
 import models.Pet;
 import models.Tag;
 import readers.ReadJson;
 import services.ApiService;
-import services.TestService;
+import services.TestAssertService;
 import utils.CommonsFunctions;
 import utils.Constants;
 import utils.ApiAddress;
@@ -61,17 +62,17 @@ public class PetStep {
         );
         jsonPath = response.getBody().jsonPath();
 
-        TestService.writeAnInfo(response.getBody().asString());
+        ScenarioManager.writeLogInfo(response.getBody().asString());
     }
 
     @Then("^I should see a (\\d{3}) status code in the get response$")
     public void iShouldSeeAStatusCodeInTheGetResponse(int statusCode) {
-        TestService.checkEquals(response.statusCode(), statusCode, "Status code 200 OK");
+        TestAssertService.checkEquals(response.statusCode(), statusCode, "Status code");
     }
 
     @And("^I should see a body that is not empty in the get response$")
     public void iShouldSeeABodyThatIsNotEmptyInTheGetResponse() {
-        TestService.checkTrue(!response.getBody().asString().isEmpty(), "The body is not empty");
+        TestAssertService.checkTrue(!response.getBody().asString().isEmpty(), "The body is not empty");
     }
 
     @And("^I should see contains values (.*?) as number$")
@@ -84,7 +85,7 @@ public class PetStep {
                 .stream(body.split(","))
                 .allMatch(id -> id.trim().matches(Constants.REGEX_INTEGER_NUMBER));
 
-        TestService.checkTrue(allAreNumbers, "All " + key.concat("s") + " are number values");
+        TestAssertService.checkTrue(allAreNumbers, "All " + key + "s" + " are number values");
     }
 
     @And("^I should see contains values (.*?) as string$")
@@ -97,7 +98,7 @@ public class PetStep {
                 .stream(body.split(","))
                 .allMatch(value -> value instanceof String);
 
-        TestService.checkTrue(allAreStrings, "All " + key + "s" + " are String values");
+        TestAssertService.checkTrue(allAreStrings, "All " + key + "s" + " are String values");
     }
 
     @And("^I should see contains available (.*?)$")
@@ -109,7 +110,7 @@ public class PetStep {
         boolean allAreAvailable = Arrays
                 .stream(body.split(","))
                 .allMatch(value -> value.trim().equalsIgnoreCase("available"));
-        TestService.checkTrue(allAreAvailable, "All " + key + "s" + " are available values");
+        TestAssertService.checkTrue(allAreAvailable, "All " + key + "s" + " are available values");
 
     }
 
@@ -123,39 +124,38 @@ public class PetStep {
                 headers,
                 ReadJson.setJsonValueInBodyPet(json, pet, category, tag)
         );
-        TestService.writeAnInfo(response.getBody().asString());
+        ScenarioManager.writeLogInfo(response.getBody().asString());
     }
 
     @Then("^I should see a (\\d{3}) status code in the post response$")
     public void iShouldSeeAStatusCodeInThePostResponse(int statusCode) {
-        TestService.checkEquals(response.statusCode(), statusCode, "Status code 200 OK");
+        TestAssertService.checkEquals(response.statusCode(), statusCode, "Status code 200 OK");
     }
 
     @And("^I should see a body that is not empty in the post response$")
     public void iShouldSeeABodyThatIsNotEmptyInThePostResponse() {
-        TestService.checkTrue(!response.getBody().asString().isEmpty(), "The body is not empty");
+        TestAssertService.checkTrue(!response.getBody().asString().isEmpty(), "The body is not empty");
     }
 
     @And("^I verify that the pet has been added correctly$")
     public void iVerifyThatThePetHasBeenAddedCorrectly() {
         int petID = Integer.parseInt(response.jsonPath().getString("id"));
+        TestAssertService.checkEquals(pet.getId(), petID, "Pet ID");
 
-        TestService.checkEquals(pet.getId(), petID, "Pet ID");
-
-        Response responseGet = ApiService.performRequest(
+        Response response = ApiService.performRequest(
                 RequestType.GET.getRequestType(),
                 Webs.WEB_BASE_PET_STORE.getWeb() + ApiAddress.API_V2_PET.getApiAddress() + "/" + petID,
                 headers,
                 null
         );
 
-        TestService.checkEquals(responseGet.statusCode(), HttpURLConnection.HTTP_OK, "Status code");
-        TestService.checkTrue(!response.getBody().asString().isEmpty(), "The body is not empty");
+        TestAssertService.checkEquals(response.statusCode(), HttpURLConnection.HTTP_OK, "Status code");
+        TestAssertService.checkTrue(!response.getBody().asString().isEmpty(), "The body is not empty");
 
-        TestService.checkEquals(pet.getId(), petID, "Pet ID");
-        TestService.checkEquals(Integer.parseInt(responseGet.body().jsonPath().getString("id")), petID,
+        TestAssertService.checkEquals(pet.getId(), petID, "Pet ID");
+        TestAssertService.checkEquals(Integer.parseInt(response.body().jsonPath().getString("id")), petID,
                 "Pet ID");
-        TestService.writeAnInfo(responseGet.getBody().asString());
+        ScenarioManager.writeLogInfo(response.getBody().asString());
     }
 
     @When("^I do a Put to update the status of the pet to (.*?)$")
@@ -168,17 +168,17 @@ public class PetStep {
                 ReadJson.setJsonValueInBodyPet(json, pet, category, tag)
         );
 
-        TestService.writeAnInfo(response.getBody().asString());
+        ScenarioManager.writeLogInfo(response.getBody().asString());
     }
 
     @Then("^I should see a (\\d{3}) status code in the put response$")
     public void iShouldSeeAStatusCodeInThePutResponse(int statusCode) {
-        TestService.checkEquals(response.statusCode(), statusCode, "Status code 200 OK");
+        TestAssertService.checkEquals(response.statusCode(), statusCode, "Status code 200 OK");
     }
 
     @And("^I should see a body that is not empty in the put response$")
     public void iShouldSeeABodyThatIsNotEmptyInThePutResponse() {
-        TestService.checkTrue(!response.getBody().asString().isEmpty(), "The body is not empty");
+        TestAssertService.checkTrue(!response.getBody().asString().isEmpty(), "The body is not empty");
     }
 
     @And("^I verify that the pet status has been updated to (.*?)")
@@ -190,11 +190,11 @@ public class PetStep {
                 null
         );
 
-        TestService.checkEquals(response.statusCode(), HttpURLConnection.HTTP_OK, "Status code 200 OK");
-        TestService.checkEquals(Integer.parseInt(response.body().jsonPath().getString("id")), pet.getId(),
+        TestAssertService.checkEquals(response.statusCode(), HttpURLConnection.HTTP_OK, "Status code 200 OK");
+        TestAssertService.checkEquals(Integer.parseInt(response.body().jsonPath().getString("id")), pet.getId(),
                 "Pet ID");
-        TestService.checkEquals(response.getBody().jsonPath().getString("status"), status, "Pet status");
-        TestService.writeAnInfo(response.getBody().asString());
+        TestAssertService.checkEquals(response.getBody().jsonPath().getString("status"), status, "Pet status");
+        ScenarioManager.writeLogInfo(response.getBody().asString());
     }
 
     @When("^I do a delete to remove the pet$")
@@ -206,19 +206,19 @@ public class PetStep {
                 null
         );
 
-        TestService.writeAnInfo(response.getBody().asString());
+        ScenarioManager.writeLogInfo(response.getBody().asString());
         resposeDeletePetId = Integer.parseInt(response.getBody().jsonPath().getString("message"));
-        TestService.writeAnInfo("Pet with ID " + response + " was delete");
+        ScenarioManager.writeLogInfo("Pet with ID " + response + " was delete");
     }
 
     @Then("^I should see a (\\d{3}) status code in the delete response$")
     public void iShouldSeeAStatusCodeInTheDeleteResponse(int statusCode) {
-        TestService.checkEquals(response.statusCode(), statusCode, "Status code 200 OK");
+        TestAssertService.checkEquals(response.statusCode(), statusCode, "Status code");
     }
 
     @And("^I should see a body that is not empty in the delete response$")
     public void iShouldSeeABodyThatIsNotEmptyInTheDeleteResponse() {
-        TestService.checkTrue(!response.getBody().asString().isEmpty(), "The body is not empty");
+        TestAssertService.checkTrue(!response.getBody().asString().isEmpty(), "The body is not empty");
     }
 
     @And("^I verify that the pet has been removed$")
@@ -229,9 +229,9 @@ public class PetStep {
                 headers,
                null
         );
-        TestService.checkEquals(responseGet.statusCode(), HttpURLConnection.HTTP_NOT_FOUND,
+        TestAssertService.checkEquals(responseGet.statusCode(), HttpURLConnection.HTTP_NOT_FOUND,
                 "Status code 404 not found");
         System.out.println(responseGet.getBody().asString());
-        TestService.checkTrue(!responseGet.getBody().asString().isEmpty(),"The body of the response not empty");
+        TestAssertService.checkTrue(!responseGet.getBody().asString().isEmpty(),"The body of the response not empty");
     }
 }
