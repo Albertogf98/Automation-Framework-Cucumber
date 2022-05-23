@@ -12,5 +12,5 @@ public class CommonsFunctions {
     public CommonsFunctions() { }
 
     public static BiFunction<Integer, Integer, Integer> generateRandomNumber = (minValue, maxValue) -> new Random()
-            .nextInt(minValue + maxValue) + minValue;
+            .nextInt(minValue + maxValue);
 }
