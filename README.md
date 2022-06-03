@@ -1,2 +1,2 @@
-# Tech-Challenge-QA-Adidas
+# FW Cucumber
 ### Alberto Gandoy Florido
